@@ -121,26 +121,26 @@ var FIPStoinfo = function(state,county,tract){
     success: function (data, textStatus, xhr) {
       console.log(data);
       censusBits = [];
-      populationOb = createOb(0,"population",data[1][0],"people");
-      medianAgeOb = createOb(1,"Median Age",data[1][1],"years");
-      medianRentOb = createOb(2,"Median Rent",data[1][2],"dollars");
-      medianIncomeOb = createOb(3,"Median Income",data[1][3],"dollars");
-      totalInPovertyOb = createOb(4,"Population Below the Poverty Line",data[1][4],"people");
-      totalVeteransOb = createOb(5,"Number of Veterans",data[1][5],"people");
-      totalHousingUnitsOb = createOb(6,"Total Number of Housing Units",data[1][6],"housing units");
-      totalRenterOccupiedOb =createOb(7,"Total Number of Renter Occupied Households",data[1][7],"housing units");
-      totalOwnerOccupiedOb = createOb(8,"Total Number of Owner Occupied Households",data[1][8],"housing units");
-      totalOccupiedHousingUnitesOb = createOb(9,"Total Number of Owner Occupied Households",data[1][9],"households");
-      totalInsuredOb = createOb(10,"Number of People with Insurance",data[1][10],"people");
-      totalDoctorsOb = createOb(11,"Number of People with PhDs",data[1][11],"people");
-      totalForeignBornOb = createOb(12,"Foreign Born Population",data[1][12],"people");
-      commuteCarpoolOb = createOb(13,"Number of People who Commute via Carpooling",data[1][13],"people");
-      commuteCarAloneOb = createOb(14,"Number of People who Commute by Driving Alone",data[1][14],"people");
-      commutePublicTransportationOb = createOb(15,"Number of People who Commute with Public Transportation",data[1][15],"people");
-      commuteWalknOb = createOb(16,"Number of People who Commute by Walking",data[1][16],"people");
-      commuteBikeOb = createOb(17,"Number of People who Commute by Biking",data[1][17],"people");
-      commuteWorkAtHome =createOb(18,"Number of People who don't commute because they work at home",data[1][18],"people");
-      commuteOther =createOb(19,"Number of People who Commute with Unidentified Method",data[1][19],"people");
+      populationOb = createOb(0,"population",data[1][0],"people","Population Characteristics");
+      medianAgeOb = createOb(1,"Median Age",data[1][1],"years","Population Characteristics");
+      medianRentOb = createOb(2,"Median Rent",data[1][2],"dollars","Housing Characteristics");
+      medianIncomeOb = createOb(3,"Median Income",data[1][3],"dollars","Financial Characteristics");
+      totalInPovertyOb = createOb(4,"Population Below the Poverty Line",data[1][4],"people","Financial Characteristics");
+      totalVeteransOb = createOb(5,"Number of Veterans",data[1][5],"people","Population Characteristics");
+      totalHousingUnitsOb = createOb(6,"Total Number of Housing Units",data[1][6],"housing units","Housing Characteristics");
+      totalRenterOccupiedOb =createOb(7,"Total Number of Renter Occupied Households",data[1][7],"housing units","Housing Characteristics");
+      totalOwnerOccupiedOb = createOb(8,"Total Number of Owner Occupied Households",data[1][8],"housing units","Housing Characteristics");
+      totalOccupiedHousingUnitesOb = createOb(9,"Total Number of Owner Occupied Households",data[1][9],"households","Housing Characteristics");
+      totalInsuredOb = createOb(10,"Number of People with Insurance",data[1][10],"people","Financial Characteristics");
+      totalDoctorsOb = createOb(11,"Number of People with PhDs",data[1][11],"people","Population Characteristics");
+      totalForeignBornOb = createOb(12,"Foreign Born Population",data[1][12],"people","Population Characteristics");
+      commuteCarpoolOb = createOb(13,"Number of People who Commute via Carpooling",data[1][13],"people","Transportation");
+      commuteCarAloneOb = createOb(14,"Number of People who Commute by Driving Alone",data[1][14],"people","Transportation");
+      commutePublicTransportationOb = createOb(15,"Number of People who Commute with Public Transportation",data[1][15],"people","Transportation");
+      commuteWalknOb = createOb(16,"Number of People who Commute by Walking",data[1][16],"people","Transportation");
+      commuteBikeOb = createOb(17,"Number of People who Commute by Biking",data[1][17],"people","Transportation");
+      commuteWorkAtHome =createOb(18,"Number of People who don't commute because they work at home",data[1][18],"people","Transportation");
+      commuteOther =createOb(19,"Number of People who Commute with Unidentified Method",data[1][19],"people","Transportation");
       console.log(censusBits);
   }
 });
@@ -151,8 +151,6 @@ var FIPStoinfo = function(state,county,tract){
 
 //Get Long and Lat from center of map, then call FCC Block Converter API
 //On pressing enter in search bar
-
-
 $('#AddressForm').keypress(function(e){
 if(e.which == 13) {
   var query = $('#AddressForm').val();
@@ -174,12 +172,6 @@ if(e.which == 13) {
     });
   });
 }});
-
-
-
-
-
-
 
 //Load first page
 $(document).ready(function(){
