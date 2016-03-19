@@ -15,21 +15,48 @@ var Stamen_TonerLite = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/ton
   ext: 'png'
 }).addTo(map);
 
-
-//Search Function
-new L.Control.GeoSearch({
-    provider: new L.GeoSearch.Provider.Google(),
-    position: 'topcenter',
-    showMarker: true,
-    retainZoomLevel: true
-}).addTo(map);
-
 var censusCall = "long lat empty";
 var tractCall = "tract empty";
 var FIPSCode = "No FIPS Code";
 
+
+//This Function
+var createWrongAnswers = function(num){
+  var arrayOfAnwers = [];
+  var rando = Math.random();
+  if (rando > 0.25 || rando < 0.5) {
+    arrayOfAnwers.push(Math.round(num * 1.2));
+    arrayOfAnwers.push(Math.round(num * 1.5));
+    arrayOfAnwers.push(Math.round(num * 0.8));
+  } else if (rando > 0.5 || rando < 0.75){
+    arrayOfAnwers.push(Math.round(num * 1.2342));
+    arrayOfAnwers.push(Math.round(num * 0.7656));
+    arrayOfAnwers.push(Math.round(num * 0.965));
+  } else if (rando > 0.75){
+    arrayOfAnwers.push(Math.round(num * 0.6));
+    arrayOfAnwers.push(Math.round(num * 0.8));
+    arrayOfAnwers.push(Math.round(num * 1.3));
+  } else {
+    arrayOfAnwers.push(Math.round(num * 1.4));
+    arrayOfAnwers.push(Math.round(num * 0.74));
+    arrayOfAnwers.push(Math.round(num * 1.1));
+  }
+  return arrayOfAnwers;
+};
+
+var createOb = function(id,subject,value,unit,catagory){
+   var valCensus = Number(value);
+  censusBits.push ({
+    "id":id,
+    "subject":subject,
+    "value": valCensus,
+    "unit": unit,
+    "catagory":"placeholder",
+    "wronganswers":createWrongAnswers(valCensus)
+  });
+};
+
 var processFIPSCode = function(FIPSCode) {
-  console.log(FIPSCode);
   var state = FIPSCode.substring(0,2);
   var county = FIPSCode.substring(2,5);
   var tract = FIPSCode.substring(5,11);
@@ -42,9 +69,49 @@ var FIPStoinfo = function(state,county,tract){
   censusKey = "&key=ccda5ba8300d0a723e4cba2a1a0e7cf9b2768b46";
   population = "B01003_001E";
   medianAge = "B01002_001E";
+  medianRent = "B25058_001E";
+  medianIncome = "B06011_001E";
+  medianHouseValue = "DP04_0088E"; //Name
+  totalInPoverty = "B07012_002E";
+  totalVeterans = "B21001_002E";
+  totalHousingUnits = "B25001_001E";
+  totalRenterOccupied = "B25003_003E";
+  totalOwnerOccupied = "B25003_002E";
+  totalOccupiedHousingUnites = "B25003_001E";
+  totalInsured = "B27001_001E";
+  totalVacentUnits = "DP04_0003E"; //Name
+  totalNonEnglishSpeakers = "C06007_003E"; //??
+  totalBachelors = "DP02_0064M"; //Name
+  totalDoctors = "B15003_025E";
+  totalForeignBorn = "B05006_001E";
+  commuteCarpool= "B08006_004E";
+  commuteCarAlone = "B08006_003E";
+  commutePublicTransportation = "B08006_008E";
+  commuteWalk = "B08006_015E";
+  commuteBike = "B08006_014E";
+  commuteWorkAtHome = "B08006_017E";
+  commuteOther = "B08006_016E";
 
-
-  params = "?get=" + population + "," + medianAge + "&";
+  params = "?get=" + population +
+  "," + medianAge +
+  "," + medianRent +
+  "," + medianIncome +
+  "," + totalInPoverty  +
+  "," + totalVeterans +
+  "," + totalHousingUnits +
+  "," + totalRenterOccupied +
+  "," + totalOwnerOccupied +
+  ","+ totalOccupiedHousingUnites  +
+  "," + totalInsured +
+  "," + totalDoctors +
+    "," + totalForeignBorn +
+    "," + commuteCarpool +
+    "," + commuteCarAlone +
+    "," + commutePublicTransportation +
+    ","+ commuteWalk +
+    "," + commuteBike +
+    "," + commuteWorkAtHome +
+    "," + commuteOther + "&";
   geography = "for=tract:" + tract + "&in=state:" + state+ "+county:" + county;
   tractCall = httpCensus + params + geography + censusKey;
   console.log(tractCall);
@@ -53,17 +120,47 @@ var FIPStoinfo = function(state,county,tract){
     crossDomain:true,
     success: function (data, textStatus, xhr) {
       console.log(data);
+      censusBits = [];
+      populationOb = createOb(0,"population",data[1][0],"people");
+      medianAgeOb = createOb(1,"Median Age",data[1][1],"years");
+      medianRentOb = createOb(2,"Median Rent",data[1][2],"dollars");
+      medianIncomeOb = createOb(3,"Median Income",data[1][3],"dollars");
+      totalInPovertyOb = createOb(4,"Population Below the Poverty Line",data[1][4],"people");
+      totalVeteransOb = createOb(5,"Number of Veterans",data[1][5],"people");
+      totalHousingUnitsOb = createOb(6,"Total Number of Housing Units",data[1][6],"housing units");
+      totalRenterOccupiedOb =createOb(7,"Total Number of Renter Occupied Households",data[1][7],"housing units");
+      totalOwnerOccupiedOb = createOb(8,"Total Number of Owner Occupied Households",data[1][8],"housing units");
+      totalOccupiedHousingUnitesOb = createOb(9,"Total Number of Owner Occupied Households",data[1][9],"households");
+      totalInsuredOb = createOb(10,"Number of People with Insurance",data[1][10],"people");
+      totalDoctorsOb = createOb(11,"Number of People with PhDs",data[1][11],"people");
+      totalForeignBornOb = createOb(12,"Foreign Born Population",data[1][12],"people");
+      commuteCarpoolOb = createOb(13,"Number of People who Commute via Carpooling",data[1][13],"people");
+      commuteCarAloneOb = createOb(14,"Number of People who Commute by Driving Alone",data[1][14],"people");
+      commutePublicTransportationOb = createOb(15,"Number of People who Commute with Public Transportation",data[1][15],"people");
+      commuteWalknOb = createOb(16,"Number of People who Commute by Walking",data[1][16],"people");
+      commuteBikeOb = createOb(17,"Number of People who Commute by Biking",data[1][17],"people");
+      commuteWorkAtHome =createOb(18,"Number of People who don't commute because they work at home",data[1][18],"people");
+      commuteOther =createOb(19,"Number of People who Commute with Unidentified Method",data[1][19],"people");
+      console.log(censusBits);
   }
 });
 };
 
 
+
+
 //Get Long and Lat from center of map, then call FCC Block Converter API
 //On pressing enter in search bar
-$("#leaflet-control-geosearch-qry").keypress(function(e) {
-    if(e.which == 13) {
-    var latitude = map.getCenter().lat;
-    var longitude = map.getCenter().lng;
+
+
+$('#AddressForm').keypress(function(e){
+if(e.which == 13) {
+  var query = $('#AddressForm').val();
+    $.ajax({
+      url: "http://nominatim.openstreetmap.org/search?format=json&addressdetails=0&limit=1&countrycodes=US&q="+query+" philadelphia pa",
+    }).done(function(data) {
+    var latitude = _.first(data).lat;
+    var longitude = _.first(data).lon;
     censusCall = "https://data.fcc.gov/api/block/find?format=jsonp&latitude=" + latitude +"&longitude="+ longitude + "&showall=false";
     $.ajax({
       url: censusCall,
@@ -73,9 +170,13 @@ $("#leaflet-control-geosearch-qry").keypress(function(e) {
       success: function (data, textStatus, xhr) {
       FIPSCode = data.Block.FIPS;
       processFIPSCode(FIPSCode);
-    }
+      }
+    });
   });
 }});
+
+
+
 
 
 
