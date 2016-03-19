@@ -19,6 +19,34 @@ var censusCall = "long lat empty";
 var tractCall = "tract empty";
 var FIPSCode = "No FIPS Code";
 
+var CensusTract;
+
+var removeCensusTract = function(CensusTract) {
+      map.removeLayer(CensusTract);
+    };
+
+var CensusTractGeoJSON = function(FIPSCode){
+  url = "https://raw.githubusercontent.com/yuchu/BlockIQ/master/Census_Tracts_2010.geojson";
+  $.ajax(url).done(function(data){
+    parsed= JSON.parse(data);
+    console.log(parsed);
+    CensusTract = L.geoJson(parsed, {
+      filter: function(feature){
+        return (feature.properties.GEOID10==FIPSCode.substring(0,11));
+      }
+    }).addTo(map);
+    // console.log(FIPSCode,FIPSCode.substring(0,11));
+  });
+};
+
+var marker = [];
+var plotMarkers = function(marker){
+      marker.addTo(map);
+    };
+var removeMarker = function(marker) {
+      map.removeLayer(marker);
+    };
+
 
 //This Function
 var createWrongAnswers = function(num){
@@ -29,7 +57,7 @@ var createWrongAnswers = function(num){
     arrayOfAnwers.push(Math.round(num * 1.5));
     arrayOfAnwers.push(Math.round(num * 0.8));
   } else if (rando > 0.5 || rando < 0.75){
-    arrayOfAnwers.push(Math.round(num * 1.2342));
+    arrayOfAnwers.push(Math.round(num * 0.8342));
     arrayOfAnwers.push(Math.round(num * 0.7656));
     arrayOfAnwers.push(Math.round(num * 0.965));
   } else if (rando > 0.75){
@@ -157,8 +185,10 @@ if(e.which == 13) {
     $.ajax({
       url: "http://nominatim.openstreetmap.org/search?format=json&addressdetails=0&limit=1&countrycodes=US&q="+query+" philadelphia pa",
     }).done(function(data) {
-    var latitude = _.first(data).lat;
-    var longitude = _.first(data).lon;
+      var latitude = _.first(data).lat;
+      var longitude = _.first(data).lon;
+      marker = L.marker([latitude, longitude]);
+      plotMarkers(marker);
     censusCall = "https://data.fcc.gov/api/block/find?format=jsonp&latitude=" + latitude +"&longitude="+ longitude + "&showall=false";
     $.ajax({
       url: censusCall,
@@ -168,6 +198,11 @@ if(e.which == 13) {
       success: function (data, textStatus, xhr) {
       FIPSCode = data.Block.FIPS;
       processFIPSCode(FIPSCode);
+      CensusTractGeoJSON(FIPSCode);
+      // plotCensusTract();
+      if(typeof CensusTract !== 'undefined'){
+        removeCensusTract(CensusTract);
+      }
       }
     });
   });
