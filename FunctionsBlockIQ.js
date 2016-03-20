@@ -159,6 +159,7 @@ if(e.which == 13) {
       var latitude = _.first(data).lat;
       var longitude = _.first(data).lon;
       marker = L.marker([latitude, longitude]);
+      map.setView([latitude,longitude],13);
       plotMarkers(marker);
     censusCall = "https://data.fcc.gov/api/block/find?format=jsonp&latitude=" + latitude +"&longitude="+ longitude + "&showall=false";
     $.ajax({
@@ -263,7 +264,7 @@ $('#ToQuizSlide').click(function(){
 
   var finalpage = {
     id:6,
-    question: "You are a "
+    question: "You are a..."
   };
 
   questions.push(finalpage);
@@ -279,16 +280,16 @@ $('#ToQuizSlide').click(function(){
     if (state_q == 6){
       $("#cat").text(category[userAnswers].cat);
       $("#cat-numRight").text(category[userAnswers].numRight);
-      // $("#image").empty().append('<img src= category[userAnswers].image height="25%" width="25%">');
+      $("#image").empty().append('<img src=' + category[userAnswers].image + ' height="70%" width="70%">');
       $("#cat-text").text(category[userAnswers].text);
     }
   });
   var category =[
-  {cat: "Tourist", numRight: "0/5 Answers Correct", text: "Pat's and Geno's might be in this neighborhood, but then again, you might just be lost.", image: "https://c.stocksy.com/a/Ink200/z0/656536.jpg"},
-  {cat: "Regional Rail Rider", numRight: "1/5 Answers Correct", text: "You're here. Sometimes. You might be gone before 11 pm but you sure know how to get the most out of Septa.", image: "https://c.stocksy.com/a/Ink200/z0/656536.jpg"},
-  {cat: "Stray Cat", numRight: "2/5 Answers Correct", text: "You're a rolling stone, you might say 'Hi' to your neighbords but you're still aloof.", image: "https://c.stocksy.com/a/Ink200/z0/656536.jpg"},
-  {cat: "Mail Delivery Person", numRight: "3/5 Answers Correct", text: "You know all the neighborhood gossip, but you keep the who's-who's to yourself. Props.", image: "https://c.stocksy.com/a/Ink200/z0/656536.jpg"},
-  {cat: "Block Captain", numRight: "4/5 Answers Correct", text: "You've got tons of pride in your neighborhood, you keep things in line, and theres a high chance you might say 'wudder'", image: "https://c.stocksy.com/a/Ink200/z0/656536.jpg"},
-  {cat: "Mayor Kenney", numRight: "5/5 Answers Correct", text: "You know the city inside and out. At some point there will probably be a mural erected in your honor.", image: "https://c.stocksy.com/a/Ink200/z0/656536.jpg"}
+  {cat: "Tourist", numRight: "0/5 Answers Correct", text: "Pat's and Geno's might be in this neighborhood, but then again, you might just be lost.", image: "images/tourist.jpg"},
+  {cat: "Regional Rail Rider", numRight: "1/5 Answers Correct", text: "You're here. Sometimes. You might be gone before 11 pm but you sure know how to get the most out of Septa.", image: "images/train.jpg"},
+  {cat: "Stray Cat", numRight: "2/5 Answers Correct", text: "You're a rolling stone, you might say 'Hi' to your neighbords but you're still aloof.", image: "images/cat.jpg"},
+  {cat: "Mail Delivery Person", numRight: "3/5 Answers Correct", text: "You know all the neighborhood gossip, but you keep the who's-who's to yourself. Props.", image: "images/mail.jpg"},
+  {cat: "Block Captain", numRight: "4/5 Answers Correct", text: "You've got tons of pride in your neighborhood, you keep things in line, and theres a high chance you might say 'wudder'", image: "images/blockcaptain.jpg"},
+  {cat: "Mayor Kenney", numRight: "5/5 Answers Correct", text: "You know the city inside and out. At some point there will probably be a mural erected in your honor.", image: "images/mayor.jpg"}
   ];
 });
