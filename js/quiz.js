@@ -1,70 +1,187 @@
 
+$("#button-next").hide();
 
-var obj1 = {title: "question1", choice1: "value1", choice2: "value2", choice3: "value3", choice4: "value4", choice5: "value5"};
-var obj2 = {title: "question2", choice1: "value1", choice2: "value2", choice3: "value3", choice4: "value4", choice5: "value5"};
-var obj3 = {title: "question3", choice1: "value1", choice2: "value2", choice3: "value3", choice4: "value4", choice5: "value5"};
-
-var array = [obj1, obj2, obj3];
-console.log(array);
-
+var userAnswers = 0;
+var Qanswers;
+var even = 0;
+var buttonsContainer = $('#buttons');
 
 
-var state = 1;
 
-$("#questionLabel").text(array[0].title);
-$("#label1").text(array[0].choice1);
-$("#label2").text(array[0].choice2);
-$("#label3").text(array[0].choice3);
-$("#label4").text(array[0].choice4);
-$("#label5").text(array[0].choice5);
-
-
-$("#submit").click(function(){
-  console.log(state);
-  if (state==1){
-      $("#questionLabel").text(array[1].title);
-      $("#label1").text(array[1].choice1);
-      $("#label2").text(array[1].choice2);
-      $("#label3").text(array[1].choice3);
-      $("#label4").text(array[1].choice4);
-      $("#label5").text(array[1].choice5);
-      state = state+1;
-    }
-    else if (state==2){
-        $("#questionLabel").text(array[1].title);
-        $("#label1").text(array[1].choice1);
-        $("#label2").text(array[1].choice2);
-        $("#label3").text(array[1].choice3).css("color", "blue");
-        $("#label4").text(array[1].choice4);
-        $("#label5").text(array[1].choice5);
-        state = state+1;
-      }
-    else if (state==3){
-        $("#questionLabel").text(array[2].title);
-        $("#label3").text(array[2].choice1);
-        $("#label2").text(array[2].choice2);
-        $("#label3").text(array[2].choice3).css("color", "black");
-        $("#label4").text(array[2].choice4);
-        $("#label5").text(array[2].choice5);
-        state = state+1;
-      }
+var setButtons = function(answers) {
+buttonsContainer.empty();
+$.each(answers, function(key, answer) {
+  buttonsContainer.append('<button id="'+key+'" value="'+key+'">'+answer.value+'</button>');
 });
+Qanswers = answers;
+};
 
-// $(document).ready(function(){
-//   if (state==2){
-//     $("#question1").text(array[1].title);
-//     state = state-1;
-//   }
-//   if (state==3){
-//     $("#question1").text(array[2].title);
-//     state = state-1;
-//   }
-// });
+$('#buttons').click(function(e){
 
-//Changes the value on the screen for the slider
-function outputUpdate(vol) {
-	document.querySelector('#volume').value = vol;
+for(i=0; i<Qanswers.length; i++){
+  $('#' +i+ '').prop('disabled', true);
+  even = even + Qanswers[i].correct*i;
 }
 
-  // var myForm = {"1": $("#1").val(), "fader": $("#fader").val()};
-  // console.log (myForm);
+if (Qanswers[e.target.value].correct){
+  $("#"+e.target.value+"").css("background-color", "green");
+    userAnswers = userAnswers + 1;
+}
+
+else {
+      $('#'+even+'').css("background-color", "green");
+      $("#"+e.target.value+"").css("background-color", "red");
+}
+$("#button-next").show();
+console.log(userAnswers);
+});
+
+var setQuestion = function(question) {
+$('#question').text(question);
+};
+
+
+
+var questions = [
+{
+  id: 1,
+  question: "What is this thing?",
+  answers: [
+    {
+      correct: true,
+      value: 2000,
+    },
+    {
+      correct: false,
+      value: 3000,
+    },
+    {
+      correct: false,
+      value: 4000,
+    },
+    {
+      correct: false,
+      value: 5000,
+    }
+  ]
+},
+{
+  id: 2,
+  question: "What is this widget-a-ma-thing?",
+  answers: [
+    {
+      correct: true,
+      value: 2000,
+    },
+    {
+      correct: false,
+      value: 3000,
+    },
+    {
+      correct: false,
+      value: 4000,
+    },
+    {
+      correct: false,
+      value: 5000,
+    }
+  ]
+},
+{
+  id: 3,
+  question: "What is this the third?",
+  answers: [
+    {
+      correct: true,
+      value: 2000,
+    },
+    {
+      correct: false,
+      value: 3000,
+    },
+    {
+      correct: false,
+      value: 4000,
+    },
+    {
+      correct: false,
+      value: 5000,
+    }
+  ]
+},
+{
+  id: 4,
+  question: "Fourth question?",
+  answers: [
+    {
+      correct: false,
+      value: 20000,
+    },
+    {
+      correct: false,
+      value: 10000,
+    },
+    {
+      correct: true,
+      value: 4000,
+    },
+    {
+      correct: false,
+      value: 5700,
+    }
+  ]
+},
+{
+  id: 5,
+  question: "Fifth question?",
+  answers: [
+    {
+      correct: false,
+      value: 200000000,
+    },
+    {
+      correct: false,
+      value: 10000,
+    },
+    {
+      correct: false,
+      value: 4000000,
+    },
+    {
+      correct: true,
+      value: 5700,
+    }
+  ]
+},
+{
+  id: 6,
+  question: "You are a ",
+}
+];
+
+setButtons(questions[0].answers);
+setQuestion(questions[0].question);
+
+var state=1;
+
+$("#button-next").click(function(){
+setButtons(questions[state].answers);
+setQuestion(questions[state].question);
+state++;
+$("#button-next").hide();
+// console.log(state);
+if (state == 6){
+  $("#cat").text(category[userAnswers].cat);
+  $("#cat-numRight").text(category[userAnswers].numRight);
+  // $("#image").empty().append('<img src= category[userAnswers].image height="25%" width="25%">');
+  $("#cat-text").text(category[userAnswers].text);
+}});
+
+var category =[
+{cat: "Tourist", numRight: "0/5 Answers Correct", text: "Pat's and Geno's might be in this neighborhood, but then again, you might just be lost.", image: "https://c.stocksy.com/a/Ink200/z0/656536.jpg"},
+{cat: "Regional Rail Rider", numRight: "1/5 Answers Correct", text: "You're here. Sometimes. You might be gone before 11 pm but you sure know how to get the most out of Septa.", image: "https://c.stocksy.com/a/Ink200/z0/656536.jpg"},
+{cat: "Stray Cat", numRight: "2/5 Answers Correct", text: "You're a rolling stone, you might say 'Hi' to your neighbords but you're still aloof.", image: "https://c.stocksy.com/a/Ink200/z0/656536.jpg"},
+{cat: "Mail Delivery Person", numRight: "3/5 Answers Correct", text: "You know all the neighborhood gossip, but you keep the who's-who's to yourself. Props.", image: "https://c.stocksy.com/a/Ink200/z0/656536.jpg"},
+{cat: "Block Captain", numRight: "4/5 Answers Correct", text: "You've got tons of pride in your neighborhood, you keep things in line, and theres a high chance you might say 'wudder'", image: "https://c.stocksy.com/a/Ink200/z0/656536.jpg"},
+{cat: "Mayor Kenney", numRight: "5/5 Answers Correct", text: "You know the city inside and out. At some point there will probably be a mural erected in your honor.", image: "https://c.stocksy.com/a/Ink200/z0/656536.jpg"}
+];

@@ -24,6 +24,42 @@ body {
     text-align: center;
 }
 
+/*#buttons{
+  padding: 20px;
+  width: 50%;
+  background-color: #666;
+
+}*/
+
+.image0{
+    width: 150px;
+    height: 100px;
+    background-image: url("http://i.stack.imgur.com/2OrtT.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.image1{
+
+}
+
+.image2{
+
+}
+
+.image3{
+
+}
+
+.image4{
+
+}
+
+.image5{
+
+}
+
 #AppTitle{
   margin-top: 2.5%;
   color: white;

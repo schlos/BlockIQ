@@ -1,37 +1,25 @@
 <html>
 <head>
-<title>multiple-choice quiz form</title>
+  <title>multiple-choice quiz form</title>
+  <link rel="stylesheet" href="css/leaflet.css" />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body bgcolor=#ffffff>
+  <h3>Block IQ</h3>
 
-<h3>Vocabulary Quiz I</h3>
+  <div id="question"></div>
 
-<!-- Check the answer to each multiple-coice question, and click on the "Send Form" button to submit the information. -->
+  <div id="buttons"></div>
+  <button id="button-next">Next</button>
 
-<!-- <P>1. The word which means "house" is:<BR> -->
-<label id="questionLabel">question1</label><br>
-<input type="radio" id="input1" name="q1"><label id="label1">question1</label><BR>
-<input type="radio" id="input2" name="q1"><label id="label2">question2</label><BR>
-<input type="radio" id="input3" name="q1"><label id="label3">question3</label><BR>
-<input type="radio" id="input4" name="q1"><label id="label4">question4</label><BR>
-<input type="radio" id="input5"name="q1"><label id="label5">question5</label><BR>
-</p>
+  <label id="cat"></label>
+  <label id="cat-numRight"></label>
+  <div id="image" class="image"></div>
+  <label id="cat-text"></label>
 
-</p>
-<label for="fader">Volume</label>
-<input type="range" min="0" max="100" value="50" id="fader" step="1" oninput="outputUpdate(value)">
-<output for="fader" id="volume">50</output>
-<br>
-<br>
-<br>
-<br>
-<input type="submit" id="submit" value="Submit">
-<button>next</button>
-<input type="reset" value="Clear Form">
-</form>
-<script src="js/leaflet.js"></script>
-<script src="js/underscore.js"></script>
-<script src="js/jquery-2.2.0.js"></script>
-<script src="js/quiz.js"></script>
+  <script src="js/leaflet.js"></script>
+  <script src="js/underscore.js"></script>
+  <script src="js/jquery-2.2.0.js"></script>
+  <script src="js/quiz.js"></script>
 </body>
 </html>
