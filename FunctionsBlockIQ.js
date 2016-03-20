@@ -150,7 +150,7 @@ var FIPStoinfo = function(state,county,tract){
       console.log(data);
       censusBits = [];
       populationOb = createOb(0,"population",data[1][0],"people","Population Characteristics");
-      medianAgeOb = createOb(1,"Median Age",data[1][1],"years","Population Characteristics");
+      medianAgeOb = createOb(1,"Median Age",Math.round(data[1][1]),"years","Population Characteristics");
       medianRentOb = createOb(2,"Median Rent",data[1][2],"dollars","Housing Characteristics");
       medianIncomeOb = createOb(3,"Median Income",data[1][3],"dollars","Financial Characteristics");
       totalInPovertyOb = createOb(4,"Population Below the Poverty Line",data[1][4],"people","Financial Characteristics");
