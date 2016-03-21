@@ -272,10 +272,12 @@ $('#ToQuizSlide').click(function(){
   setButtons(questions[0].answers);
   setQuestion(questions[0].question);
   var state_q=1;
+  $("#count").text('1/5');
   $('#button-next').click(function(){
     setButtons(questions[state_q].answers);
     setQuestion(questions[state_q].question);
     state_q++;
+    $("#count").text(''+state_q+'/5');
     $('#button-next').hide();
     if (state_q == 6){
       $("#cat").text(category[userAnswers].cat);
